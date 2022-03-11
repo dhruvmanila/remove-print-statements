@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "remove-print-statements"
+version = "0.1.0"
+description = "A tool (and pre-commit hook) to remove print statements from your Python project."
+authors = ["Dhruv Manilawala <dhruvmanila@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/dhruvmanila/remove-print-statements"
+keywords = ["python", "codemod", "libCST"]
+
+[tool.poetry.urls]
+"Bug Tracker" = "https://github.com/dhruvmanila/remove-print-statements/issues"
+
+[tool.poetry.dependencies]
+python = "^3.7"
+libcst = "^0.4.1"
+
+[tool.poetry.dev-dependencies]
+pytest = "^7.0.1"
+tox = "^3.24.5"
+
+[tool.poetry.scripts]
+remove-print-statements = "remove_print_statements:main"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+profile = "black"

@@ -1,0 +1,26 @@
+*.DS_Store
+
+# python
+*.pyc
+*.pyo
+*.swp
+__pycache__
+dist
+
+# Editors
+.idea
+.vscode
+
+# Environments
+env
+venv
+.env
+.venv
+
+# pyenv
+.python-version
+
+# Tools
+.mypy_cache
+.pytest_cache
+.tox

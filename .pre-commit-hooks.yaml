@@ -1,0 +1,5 @@
+- id: remove-print-statements
+  name: remove all the print function calls
+  entry: remove-print-statements
+  language: python
+  types: [python]
