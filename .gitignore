@@ -24,3 +24,7 @@ venv
 .mypy_cache
 .pytest_cache
 .tox
+
+# Coverage
+.coverage
+htmlcov

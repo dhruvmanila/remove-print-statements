@@ -60,7 +60,7 @@ class RemovePrintStatements(ContextAwareTransformer):
     METADATA_DEPENDENCIES = (PositionProvider,)
 
     def __init__(
-        self, context: CodemodContext, dry_run: bool = False, verbose: bool = False
+        self, context: CodemodContext, *, dry_run: bool = False, verbose: bool = False
     ) -> None:
         super().__init__(context)
         self.dry_run = dry_run
