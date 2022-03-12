@@ -160,7 +160,7 @@ class TestRemovePrintStatement(CodemodTest):
     def test_verbose(self, mock_out) -> None:
         before = """
             x = 5
-            print("be verbose")
+            print("verbose")
             y = x + 1
         """
         after = """
@@ -168,4 +168,19 @@ class TestRemovePrintStatement(CodemodTest):
             y = x + 1
         """
         self.assertCodemod(before, after, verbose=True)
-        self.assertEqual(mock_out.getvalue(), "None:2:0: print function called\n")
+        self.assertEqual(mock_out.getvalue(), 'None:2:0: print("verbose")\n')
+
+    @patch("sys.stdout", new_callable=io.StringIO)
+    def test_dry_run_and_verbose(self, mock_out) -> None:
+        before = """
+            x = 5
+            print("verbose")
+            y = x + 1
+        """
+        after = """
+            x = 5
+            print("verbose")
+            y = x + 1
+        """
+        self.assertCodemod(before, after, dry_run=True, verbose=True)
+        self.assertEqual(mock_out.getvalue(), 'None:2:0: print("verbose")\n')
