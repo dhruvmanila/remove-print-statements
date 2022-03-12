@@ -27,4 +27,5 @@ venv
 
 # Coverage
 .coverage
+coverage.xml
 htmlcov
