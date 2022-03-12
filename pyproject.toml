@@ -5,8 +5,23 @@ description = "A tool (and pre-commit hook) to remove print statements from your
 authors = ["Dhruv Manilawala <dhruvmanila@gmail.com>"]
 license = "MIT"
 readme = "README.md"
+homepage = "https://github.com/dhruvmanila/remove-print-statements"
 repository = "https://github.com/dhruvmanila/remove-print-statements"
 keywords = ["python", "codemod", "libCST"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Typing :: Typed",
+]
 
 [tool.poetry.urls]
 "Bug Tracker" = "https://github.com/dhruvmanila/remove-print-statements/issues"
@@ -14,6 +29,7 @@ keywords = ["python", "codemod", "libCST"]
 [tool.poetry.dependencies]
 python = "^3.7"
 libcst = "^0.4.1"
+click = "^8.0.4"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.0.1"
@@ -31,8 +47,9 @@ build-backend = "poetry.core.masonry.api"
 profile = "black"
 
 [tool.pytest.ini_options]
-addopts = """\
-  --cov=remove_print_statements
-  --cov-report=html
-  --cov-report=term-missing
-"""
+addopts = [
+  "--cov=remove_print_statements",
+  "--cov-report=xml",
+  "--cov-report=html",
+  "--cov-report=term-missing",
+]
