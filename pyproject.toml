@@ -50,6 +50,5 @@ profile = "black"
 addopts = [
   "--cov=remove_print_statements",
   "--cov-report=xml",
-  "--cov-report=html",
   "--cov-report=term-missing",
 ]
