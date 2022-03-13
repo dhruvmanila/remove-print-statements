@@ -16,7 +16,7 @@ from libcst.metadata import PositionProvider
 __version__ = "0.1.0-alpha"
 
 
-@dataclass(frozen=False, kw_only=True)
+@dataclass(frozen=False)
 class Report:
     dry_run: bool = False
     verbose: bool = False
