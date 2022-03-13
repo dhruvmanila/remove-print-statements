@@ -1,10 +1,9 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import List, Tuple, Union
 
 import click
 import libcst as cst
 import libcst.matchers as m
-from libcst import RemovalSentinel, RemoveFromParent
 from libcst.codemod import (
     CodemodContext,
     ContextAwareTransformer,
@@ -17,30 +16,48 @@ from libcst.metadata import PositionProvider
 __version__ = "0.1.0-alpha"
 
 
-@dataclass(frozen=False)
+@dataclass(frozen=False, kw_only=True)
 class Report:
     dry_run: bool = False
     verbose: bool = False
 
     # Total number of transformed files.
-    file_count: int = field(init=False, default=0)
+    file_count: int = 0
 
     # Total number of print statements in all files combined.
-    print_statement_count: int = field(init=False, default=0)
+    print_statement_count: int = 0
 
     # Total number of files where a failure occured. The failure could occur either
     # while opening/reading the file or while transforming.
-    failure_count: int = field(init=False, default=0)
+    failure_count: int = 0
 
     @property
     def return_code(self) -> int:
-        """Return the exit code that the tool should use."""
+        """Return the exit code that the tool should use.
+
+        This considers the current state of changed files and failures:
+        - if there were any failures, return 123;
+        - if any files were changed and --dry-run is being used, return 1;
+        - otherwise return 0.
+        """
+        # According to http://tldp.org/LDP/abs/html/exitcodes.html starting with
+        # 126 we have special return codes reserved by the shell.
         if self.failure_count:
+            return 123
+        elif self.file_count and self.dry_run:
             return 1
         return 0
 
     def __str__(self) -> str:
         """Return a one-line color summary of the report.
+
+        The summary line consists of:
+        - number of files changed
+        - number of print statements removed
+        - number of files failed to transform, if any.
+
+        When `--dry-run` flag is passed, the wording of the summary line is changed
+        accordingly.
 
         Use `click.unstyle` to remove colors.
         """
@@ -79,8 +96,8 @@ class Report:
             )
 
         summary = ", ".join(report)
-        # When in verbose mode, we want the summary to be on its own line.
-        if self.verbose:
+        # When in verbose mode, the summary should be on its own line.
+        if self.verbose and self.file_count:
             return "\n" + summary
         return summary
 
@@ -114,16 +131,16 @@ class RemovePrintStatements(ContextAwareTransformer):
             if pos is not None:
                 click.echo(
                     f"{self.context.filename}:{pos.start.line}:{pos.start.column}: "
-                    + self.module.code_for_node(node)
+                    + click.style(self.module.code_for_node(node), bold=True)
                 )
 
     @m.call_if_inside(PRINT_STATEMENT)
     def leave_Expr(
         self, original_node: cst.Expr, updated_node: cst.Expr
-    ) -> Union[cst.Expr, RemovalSentinel]:
+    ) -> Union[cst.Expr, cst.RemovalSentinel]:
         if self.dry_run:
             return updated_node
-        return RemoveFromParent()
+        return cst.RemoveFromParent()
 
 
 def check_file(
@@ -211,25 +228,33 @@ def check_file(
     ),
     metavar="FILENAME ...",
 )
+@click.pass_context
 def main(
+    ctx: click.Context,
     dry_run: bool,
     verbose: bool,
     ignore: Tuple[str, ...],
     filenames: Tuple[str, ...],
-) -> int:
+) -> None:
     """Remove all the print statements from your Python project.
 
     You can preview all the print statements along with their location by
     passing both `--dry-run` and `--verbose` flags.
     """
     report = Report(dry_run=dry_run, verbose=verbose)
+
     for filename in filenames:
         if filename in ignore:
             continue
         check_file(filename, report=report, dry_run=dry_run, verbose=verbose)
-    click.echo(report)
-    return report.return_code
+
+    if not report.file_count:
+        click.echo(click.style("No print statements found. All good to go.", bold=True))
+        ctx.exit(0)
+
+    click.echo(str(report))
+    ctx.exit(report.return_code)
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    main()
