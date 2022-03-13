@@ -1,5 +1,6 @@
 - id: remove-print-statements
-  name: remove all the print function calls
+  name: remove print statements
+  description: remove all the print statements from your Python project
   entry: remove-print-statements
   language: python
   types: [python]
