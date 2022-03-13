@@ -49,3 +49,6 @@ jobs:
 
       - name: Run tests
         run: poetry run pytest
+
+      - name: Upload to codecov
+        uses: codecov/codecov-action@v2
