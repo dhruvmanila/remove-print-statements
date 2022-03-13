@@ -1,1 +1,79 @@
+<div align="center">
+
 # remove-print-statements
+
+[![packaing: poetry](https://img.shields.io/badge/packaging-poetry-299bd7?style=flat-square&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAASCAYAAABrXO8xAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAJJSURBVHgBfZLPa1NBEMe/s7tNXoxW1KJQKaUHkXhQvHgW6UHQQ09CBS/6V3hKc/AP8CqCrUcpmop3Cx48eDB4yEECjVQrlZb80CRN8t6OM/teagVxYZi38+Yz853dJbzoMV3MM8cJUcLMSUKIE8AzQ2PieZzFxEJOHMOgMQQ+dUgSAckNXhapU/NMhDSWLs1B24A8sO1xrN4NECkcAC9ASkiIJc6k5TRiUDPhnyMMdhKc+Zx19l6SgyeW76BEONY9exVQMzKExGKwwPsCzza7KGSSWRWEQhyEaDXp6ZHEr416ygbiKYOd7TEWvvcQIeusHYMJGhTwF9y7sGnSwaWyFAiyoxzqW0PM/RjghPxF2pWReAowTEXnDh0xgcLs8l2YQmOrj3N7ByiqEoH0cARs4u78WgAVkoEDIDoOi3AkcLOHU60RIg5wC4ZuTC7FaHKQm8Hq1fQuSOBvX/sodmNJSB5geaF5CPIkUeecdMxieoRO5jz9bheL6/tXjrwCyX/UYBUcjCaWHljx1xiX6z9xEjkYAzbGVnB8pvLmyXm9ep+W8CmsSHQQY77Zx1zboxAV0w7ybMhQmfqdmmw3nEp1I0Z+FGO6M8LZdoyZnuzzBdjISicKRnpxzI9fPb+0oYXsNdyi+d3h9bm9MWYHFtPeIZfLwzmFDKy1ai3p+PDls1Llz4yyFpferxjnyjJDSEy9CaCx5m2cJPerq6Xm34eTrZt3PqxYO1XOwDYZrFlH1fWnpU38Y9HRze3lj0vOujZcXKuuXm3jP+s3KbZVra7y2EAAAAAASUVORK5CYII=)](https://python-poetry.org/)
+[![code style: black](https://img.shields.io/static/v1?label=code%20style&message=black&color=black&style=flat-square)](https://github.com/psf/black)
+[![pre-commit: enabled](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white&style=flat-square)](https://github.com/pre-commit/pre-commit)
+
+A CLI tool (and pre-commit hook) to remove all the `print` statements from your
+Python project.
+
+</div>
+
+Do you use `print` statements for debugging? We all do, and there's nothing wrong
+with it. After the bug has been resolved, we need to manually open all the files
+which we added the print statements in, only if we remember all of them after
+hours of debugging, and remove them. A better way would be to use some sort of
+find and replace from the editor or command-line, but that's still a lot of
+manual work. Worst case, it gets pushed and deployed to production.
+
+Who wants to do all the manual work in the age of automation? No one. So,
+install this tool and forget about removing the print statements manually
+forever. You could either run this tool manually or add it as a `pre-commit`
+hook. You could even preview the print statements along with it's location
+without removing it. How nice is that!
+
+## Installation
+
+You can install `remove-print-statements` from the Python Package Index (PyPI)
+with `pip` or equivalent.
+
+```
+python -m pip install remove-print-statements
+```
+
+Or with [pre-commit](https://pre-commit.com) in the `repos` section of your
+`.pre-commit-config.yaml` file ([docs](https://pre-commit.com/#plugins)):
+
+```yaml
+- repo: https://github.com/dhruvmanila/remove-print-statements
+  rev: ''  # Replace with latest tag on GitHub
+  hooks:
+  - id: remove-print-statements
+    args: ['--verbose']   # Show all the print statements to be removed
+```
+
+## Usage
+
+`remove-print-statements` is a command-line tool that rewrites the files in
+place. It focuses on upgrading your code and not on making it look nice. Run
+remove-print-statements before formatters like [Black](https://black.readthedocs.io/en/stable/).
+
+You can preview the print statements which would be removed without modifying
+the source files using both `--dry-run` and `--verbose` flags like so:
+
+```console
+$ remove-print-statements --dry-run --verbose test.py
+test.py:7:0: print("module")
+test.py:18:8: print("property")
+test.py:27:4: print("method")
+test.py:29:8: print("for loop")
+
+1 file would be transformed, 4 print statements would be removed
+```
+
+`remove-print-statements` does not have any ability to recurse through
+directories. Use the pre-commit integration, globbing, or another technique for
+applying to many files such as [with `git ls-files | xargs`][1].
+
+
+## License
+
+`remove-print-statements` is licensed under the MIT License.
+
+See [LICENSE](./LICENSE) for details.
+
+<!-- References -->
+
+[1]: https://adamj.eu/tech/2022/03/09/how-to-run-a-command-on-many-files-in-your-git-repository/
