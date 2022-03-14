@@ -100,6 +100,14 @@ applying to many files such as [with `git ls-files | xargs`][1].
 [![code style: black](https://img.shields.io/static/v1?label=code%20style&message=black&color=black&style=flat-square)](https://github.com/psf/black)
 [![pre-commit: enabled](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white&style=flat-square)](https://github.com/pre-commit/pre-commit)
 
+### Release
+
+1. Run `poetry lock`
+2. Bump version in `pyproject.toml` and `__version__` variable
+3. Commit and push the changes with message `release: <version>`
+4. Publish a new release on GitHub which will trigger an automated workflow to
+   publish on PyPi
+
 ## License
 
 remove-print-statements is licensed under the MIT License.
