@@ -13,7 +13,7 @@ from libcst.codemod import (
 )
 from libcst.metadata import PositionProvider
 
-__version__ = "0.1.1"
+__version__ = "0.1.2"
 
 
 @dataclass(frozen=False)
