@@ -1,0 +1,29 @@
+name: release
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  upload:
+    name: upload
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@3
+        with:
+          python-version: "3.9"
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+
+      - name: Build project for distribution
+        run: poetry build
+
+      - name: Publish to PyPi
+        env:
+          POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_TOKEN }}
+        run: poetry publish
