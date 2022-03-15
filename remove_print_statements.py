@@ -162,7 +162,7 @@ def check_file(
         with open(filename, "r") as f:
             code = f.read()
     except Exception as exc:
-        click.echo(f"Could not read file {filename!r}, skipping: {exc}")
+        click.secho(f"Could not read file {filename!r}, skipping: {exc}", fg="red")
         report.failure_count += 1
         return
 
@@ -180,7 +180,9 @@ def check_file(
                 with open(filename, "w") as f:
                     f.write(result.code)
     elif isinstance(result, TransformFailure):
-        click.echo(f"Failed to transform the file {filename!r}: {result.error}")
+        click.secho(
+            f"Failed to transform the file {filename!r}: {result.error}", fg="red"
+        )
         report.failure_count += 1
 
 
@@ -249,7 +251,7 @@ def main(
         check_file(filename, report=report, dry_run=dry_run, verbose=verbose)
 
     if not report.file_count:
-        click.echo(click.style("No print statements found. All good to go.", bold=True))
+        click.secho("No print statements found. All good to go.", bold=True)
         ctx.exit(0)
 
     click.echo(str(report))
