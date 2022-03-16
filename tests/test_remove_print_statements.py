@@ -157,7 +157,7 @@ class TestRemovePrintStatement(CodemodTest):
         self.assertCodemod(before, after, dry_run=True)
 
     @patch("sys.stdout", new_callable=io.StringIO)
-    def test_verbose(self, mock_out) -> None:
+    def test_verbose(self, mock_out: io.StringIO) -> None:
         before = """
             x = 5
             print("verbose")
@@ -171,7 +171,7 @@ class TestRemovePrintStatement(CodemodTest):
         self.assertEqual(mock_out.getvalue(), 'None:2:0: print("verbose")\n')
 
     @patch("sys.stdout", new_callable=io.StringIO)
-    def test_dry_run_and_verbose(self, mock_out) -> None:
+    def test_dry_run_and_verbose(self, mock_out: io.StringIO) -> None:
         before = """
             x = 5
             print("verbose")

@@ -4,7 +4,7 @@ import pytest
 from remove_print_statements import Report
 
 
-def test_noop():
+def test_noop() -> None:
     report = Report()
     assert report.return_code == 0
 
