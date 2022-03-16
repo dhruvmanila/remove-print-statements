@@ -35,6 +35,11 @@ click = "^8.0.4"
 pytest = "^7.0.1"
 tox = "^3.24.5"
 pytest-cov = "^3.0.0"
+mypy = "^0.941"
+pre-commit = "^2.17.0"
+black = "^22.1.0"
+isort = "^5.10.1"
+flake8 = "^4.0.1"
 
 [tool.poetry.scripts]
 remove-print-statements = "remove_print_statements:main"
