@@ -250,7 +250,7 @@ def main(
             continue
         check_file(filename, report=report, dry_run=dry_run, verbose=verbose)
 
-    if not report.file_count:
+    if not (report.failure_count or report.file_count):
         click.secho("No print statements found. All good to go.", bold=True)
         ctx.exit(0)
 
