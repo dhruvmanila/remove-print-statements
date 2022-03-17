@@ -243,6 +243,9 @@ def main(
     You can preview all the print statements along with their location by
     passing both `--dry-run` and `--verbose` flags.
     """
+    if not filenames:
+        ctx.exit(0)
+
     report = Report(dry_run=dry_run, verbose=verbose)
 
     for filename in filenames:
