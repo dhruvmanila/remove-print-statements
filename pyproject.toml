@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "remove-print-statements"
-version = "0.1.3"
+version = "0.2.0"
 description = "A tool (and pre-commit hook) to remove print statements from your Python project."
 authors = ["Dhruv Manilawala <dhruvmanila@gmail.com>"]
 license = "MIT"
@@ -9,7 +9,7 @@ homepage = "https://github.com/dhruvmanila/remove-print-statements"
 repository = "https://github.com/dhruvmanila/remove-print-statements"
 keywords = ["python", "codemod", "libCST"]
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 4 - Beta",
     "Environment :: Console",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
