@@ -143,6 +143,31 @@ class TestRemovePrintStatement(CodemodTest):
         """
         self.assertCodemod(before, after)
 
+    def test_single_statement(self) -> None:
+        before = """
+            def foo():
+                print()
+
+
+            for _ in range(5):
+                print()
+
+            if __name__ == "__main__":
+                print()
+            """
+        after = """
+            def foo():
+                pass
+
+
+            for _ in range(5):
+                pass
+
+            if __name__ == "__main__":
+                pass
+            """
+        self.assertCodemod(before, after)
+
     def test_dry_run(self) -> None:
         before = """
             x = 5
