@@ -84,6 +84,38 @@ remove-print-statements before formatters like [Black](https://black.readthedocs
 directories. Use the pre-commit integration, globbing, or another technique for
 applying to many files such as [with `git ls-files | xargs`][1].
 
+### Single statement
+
+If there's only a single statement in the body of a function, for/while loop, if
+statement, etc., which is a print statement, then it will be replaced with the
+`pass` keyword.
+
+```python
+def foo():
+    print()
+
+
+for _ in range(5):
+    print()
+
+if __name__ == "__main__":
+    print()
+```
+
+Running `remove-print-statements` will transform the above code as below:
+
+```python
+def foo():
+    pass
+
+
+for _ in range(5):
+    pass
+
+if __name__ == "__main__":
+    pass
+```
+
 ### Exit status
 
 `remove-print-statements` command returns exit statuses as follows:
