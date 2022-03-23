@@ -5,8 +5,8 @@
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/dhruvmanila/remove-print-statements/ci?label=CI&logo=github&style=flat-square)](https://github.com/dhruvmanila/remove-print-statements/actions)
 [![Codecov](https://img.shields.io/codecov/c/gh/dhruvmanila/remove-print-statements?label=codecov&logo=codecov&style=flat-square)](https://app.codecov.io/gh/dhruvmanila/remove-print-statements)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/dhruvmanila/remove-print-statements/main.svg)](https://results.pre-commit.ci/latest/github/dhruvmanila/remove-print-statements/main)
-[![PyPi Status](https://img.shields.io/pypi/v/remove-print-statements.svg?logo=python&logoColor=fff&style=flat-square)](https://pypi.org/project/remove-print-statements/)
-![Python versions](https://img.shields.io/pypi/pyversions/remove-print-statements.svg?style=flat-square&logo=python&amp;logoColor=fff)
+[![PyPi Status](https://img.shields.io/pypi/v/remove-print-statements.svg?style=flat-square&color=blue)](https://pypi.org/project/remove-print-statements/)
+![Python versions](https://img.shields.io/pypi/pyversions/remove-print-statements.svg?style=flat-square)
 [![MIT License](https://img.shields.io/pypi/l/remove-print-statements.svg?style=flat-square)](./LICENSE)
 
 A CLI tool (and pre-commit hook) to remove all the `print` statements from your
