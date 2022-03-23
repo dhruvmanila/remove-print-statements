@@ -1,5 +1,6 @@
+from __future__ import annotations
+
 from dataclasses import dataclass
-from typing import List, Tuple, Union
 
 import click
 import libcst as cst
@@ -70,7 +71,7 @@ class Report:
             removed = "removed"
             failed = "failed to transform"
 
-        report: List[str] = []
+        report: list[str] = []
         if self.file_count:
             s = "s" if self.file_count > 1 else ""
             report.append(
@@ -137,7 +138,7 @@ class RemovePrintStatements(ContextAwareTransformer):
     @m.call_if_inside(PRINT_STATEMENT)
     def leave_Expr(
         self, original_node: cst.Expr, updated_node: cst.Expr
-    ) -> Union[cst.Expr, cst.RemovalSentinel]:
+    ) -> cst.Expr | cst.RemovalSentinel:
         if self.dry_run:
             return updated_node
         return cst.RemoveFromParent()
@@ -159,7 +160,7 @@ def check_file(
         verbose: If True, output all the print statements along with their location.
     """
     try:
-        with open(filename, "r") as f:
+        with open(filename) as f:
             code = f.read()
     except Exception as exc:
         click.secho(f"Could not read file {filename!r}, skipping: {exc}", fg="red")
@@ -235,8 +236,8 @@ def main(
     ctx: click.Context,
     dry_run: bool,
     verbose: bool,
-    ignore: Tuple[str, ...],
-    filenames: Tuple[str, ...],
+    ignore: tuple[str, ...],
+    filenames: tuple[str, ...],
 ) -> None:
     """Remove all the print statements from your Python project.
 
