@@ -57,3 +57,9 @@ addopts = [
   "--cov-report=xml",
   "--cov-report=term-missing",
 ]
+
+[tool.coverage.report]
+exclude_lines = [
+  'pragma: no cover',
+  'if __name__ == .__main__.:',
+]

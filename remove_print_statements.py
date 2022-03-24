@@ -162,7 +162,7 @@ def check_file(
     try:
         with open(filename) as f:
             code = f.read()
-    except Exception as exc:
+    except Exception as exc:  # pragma: no cover
         click.secho(f"Could not read file {filename!r}, skipping: {exc}", fg="red")
         report.failure_count += 1
         return
