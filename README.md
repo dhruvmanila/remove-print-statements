@@ -2,7 +2,7 @@
 
 # remove-print-statements
 
-[![test](https://github.com/dhruvmanila/remove-print-statements/actions/workflows/ci.yml/badge.svg)](https://github.com/dhruvmanila/remove-print-statements/actions/workflows/ci.yml)
+[![test](https://github.com/dhruvmanila/remove-print-statements/actions/workflows/test.yml/badge.svg)](https://github.com/dhruvmanila/remove-print-statements/actions/workflows/test.yml)
 [![codecov](https://codecov.io/gh/dhruvmanila/remove-print-statements/branch/main/graph/badge.svg)](https://codecov.io/gh/dhruvmanila/remove-print-statements)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/dhruvmanila/remove-print-statements/main.svg)](https://results.pre-commit.ci/latest/github/dhruvmanila/remove-print-statements/main)
 [![PyPi Status](https://img.shields.io/pypi/v/remove-print-statements.svg?color=blue)](https://pypi.org/project/remove-print-statements/)
