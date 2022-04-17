@@ -1,6 +1,8 @@
 import io
+import sys
 from unittest.mock import patch
 
+import pytest
 from libcst.codemod import CodemodTest
 
 from remove_print_statements import RemovePrintStatements
@@ -169,6 +171,10 @@ class TestRemovePrintStatement(CodemodTest):
         self.assertCodemod(before, after)
 
     # https://github.com/dhruvmanila/remove-print-statements/issues/6
+    @pytest.mark.skipif(
+        sys.version_info <= (3, 10),
+        reason="Match statement requires Python 3.10 or higher",
+    )
     def test_python_310_match_statement(self) -> None:
         before = """
             x = 2

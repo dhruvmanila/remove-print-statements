@@ -20,7 +20,7 @@ __version__ = "0.3.0"
 
 # TODO(dhruvmanila): Remove this block when it's the default.
 # https://github.com/Instagram/LibCST/issues/285#issuecomment-1011427731
-if sys.version_info.major >= 3 and sys.version_info.minor >= 10:
+if sys.version_info >= (3, 10):
     os.environ["LIBCST_PARSER_TYPE"] = "native"
 
 
