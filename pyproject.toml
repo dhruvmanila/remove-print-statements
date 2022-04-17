@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "remove-print-statements"
-version = "0.3.0"
+version = "0.3.1"
 description = "A tool (and pre-commit hook) to remove print statements from your Python project."
 authors = ["Dhruv Manilawala <dhruvmanila@gmail.com>"]
 license = "MIT"
