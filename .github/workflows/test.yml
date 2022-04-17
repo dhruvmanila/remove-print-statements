@@ -55,5 +55,4 @@ jobs:
         run: poetry run pytest
 
       - name: Upload to codecov
-        if: ${{ (matrix.python-version == '3.9') && (matrix.os == 'ubuntu-latest') }}
         uses: codecov/codecov-action@v2
