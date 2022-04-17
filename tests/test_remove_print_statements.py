@@ -168,6 +168,28 @@ class TestRemovePrintStatement(CodemodTest):
             """
         self.assertCodemod(before, after)
 
+    # https://github.com/dhruvmanila/remove-print-statements/issues/6
+    def test_python_310_match_statement(self) -> None:
+        before = """
+            x = 2
+            match x:
+                case 1:
+                    x -= 1
+                    print("x is 1")
+                case 2:
+                    x -= 2
+                    print("x is 2")
+        """
+        after = """
+            x = 2
+            match x:
+                case 1:
+                    x -= 1
+                case 2:
+                    x -= 2
+        """
+        self.assertCodemod(before, after)
+
     def test_dry_run(self) -> None:
         before = """
             x = 5

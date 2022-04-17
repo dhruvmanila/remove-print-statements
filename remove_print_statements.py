@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import os
+import sys
 from dataclasses import dataclass
 
 import click
@@ -15,6 +17,11 @@ from libcst.codemod import (
 from libcst.metadata import PositionProvider
 
 __version__ = "0.3.0"
+
+# TODO(dhruvmanila): Remove this block when it's the default.
+# https://github.com/Instagram/LibCST/issues/285#issuecomment-1011427731
+if sys.version_info.major >= 3 and sys.version_info.minor >= 10:
+    os.environ["LIBCST_PARSER_TYPE"] = "native"
 
 
 @dataclass(frozen=False)
