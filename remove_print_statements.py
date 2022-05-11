@@ -188,12 +188,9 @@ def check_file(
                 with open(filename, "w") as f:
                     f.write(result.code)
     elif isinstance(result, TransformFailure):
-        click.secho(f"Failed to transform the file {filename!r}: ", nl=False, fg="red")
-        try:
-            # FIXME: https://github.com/Instagram/LibCST/issues/678
-            click.secho(result.error, fg="red")
-        except Exception:
-            pass
+        click.secho(
+            f"Failed to transform the file {filename!r}: {result.error}", fg="red"
+        )
         report.failure_count += 1
 
 

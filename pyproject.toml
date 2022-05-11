@@ -28,7 +28,7 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.7"
-libcst = "^0.4.1"
+libcst = "^0.4.2"
 # https://github.com/pallets/click/issues/2227
 click = ">=8.1.1"
 
