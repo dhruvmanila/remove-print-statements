@@ -1,11 +1,49 @@
-import io
 import sys
-from unittest.mock import patch
+from typing import Mapping
 
+import click
 import pytest
 from libcst.codemod import CodemodTest
 
-from remove_print_statements import RemovePrintStatements
+from remove_print_statements import RemovePrintStatements, format_verbose_output
+
+FILENAME = "filename"
+
+
+@pytest.mark.parametrize(
+    ("print_statements", "expected"),
+    (
+        ({}, ""),
+        (
+            {
+                1: "print()",
+            },
+            "\n".join(
+                [
+                    FILENAME,
+                    "  1 print()",
+                ]
+            ),
+        ),
+        (
+            {
+                1: "print(1)",
+                12: "print(12)",
+            },
+            "\n".join(
+                [
+                    FILENAME,
+                    "  1 print(1)",
+                    "  12 print(12)",
+                ]
+            ),
+        ),
+    ),
+)
+def test_format_verbose_output(
+    print_statements: Mapping[int, str], expected: str
+) -> None:
+    assert click.unstyle(format_verbose_output(FILENAME, print_statements)) == expected
 
 
 class TestRemovePrintStatement(CodemodTest):
@@ -208,32 +246,3 @@ class TestRemovePrintStatement(CodemodTest):
             y = x + 1
         """
         self.assertCodemod(before, after, dry_run=True)
-
-    @patch("sys.stdout", new_callable=io.StringIO)
-    def test_verbose(self, mock_out: io.StringIO) -> None:
-        before = """
-            x = 5
-            print("verbose")
-            y = x + 1
-        """
-        after = """
-            x = 5
-            y = x + 1
-        """
-        self.assertCodemod(before, after, verbose=True)
-        self.assertEqual(mock_out.getvalue(), 'None:2:0: print("verbose")\n')
-
-    @patch("sys.stdout", new_callable=io.StringIO)
-    def test_dry_run_and_verbose(self, mock_out: io.StringIO) -> None:
-        before = """
-            x = 5
-            print("verbose")
-            y = x + 1
-        """
-        after = """
-            x = 5
-            print("verbose")
-            y = x + 1
-        """
-        self.assertCodemod(before, after, dry_run=True, verbose=True)
-        self.assertEqual(mock_out.getvalue(), 'None:2:0: print("verbose")\n')

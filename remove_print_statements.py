@@ -3,6 +3,7 @@ from __future__ import annotations
 import os
 import sys
 from dataclasses import dataclass
+from typing import Mapping
 
 import click
 import libcst as cst
@@ -130,6 +131,13 @@ class RemovePrintStatements(ContextAwareTransformer):
         self.dry_run = dry_run
         self.verbose = verbose
         self.print_statement_count = 0
+        self._print_statements: dict[int, str] = {}
+
+    @property
+    def print_statements(self) -> Mapping[int, str]:
+        """Return all the print statements in their code representation along with
+        the line number information."""
+        return self._print_statements
 
     @m.call_if_inside(PRINT_STATEMENT)
     def visit_Expr(self, node: cst.Expr) -> None:
@@ -137,10 +145,7 @@ class RemovePrintStatements(ContextAwareTransformer):
         if self.verbose:
             pos = self.get_metadata(PositionProvider, node, None)
             if pos is not None:
-                click.echo(
-                    f"{self.context.filename}:{pos.start.line}:{pos.start.column}: "
-                    + click.style(self.module.code_for_node(node), bold=True)
-                )
+                self._print_statements[pos.start.line] = self.module.code_for_node(node)
 
     @m.call_if_inside(PRINT_STATEMENT)
     def leave_Expr(
@@ -149,6 +154,29 @@ class RemovePrintStatements(ContextAwareTransformer):
         if self.dry_run:
             return updated_node
         return cst.RemoveFromParent()
+
+
+def format_verbose_output(filename: str, print_statements: Mapping[int, str]) -> str:
+    """Return the formatted output used when the `--verbose` flag is provided.
+
+    Args:
+        filename: Name of the file currently being checked.
+        print_statements: Mapping of line number where the print statement is
+            present to the code representation of that print statement.
+
+    Returns:
+        Formatted output or an empty string if there are no print statements.
+    """
+    if len(print_statements) == 0:
+        return ""
+
+    result = [click.style(filename, fg="blue")]
+    for start, statement in print_statements.items():
+        for lineno, line in enumerate(statement.splitlines(), start=start):
+            result.append(
+                f"  {click.style(lineno, dim=True)} {click.style(line, bold=True)}"
+            )
+    return "\n".join(result)
 
 
 def check_file(
@@ -184,6 +212,8 @@ def check_file(
         if codemod.print_statement_count:
             report.file_count += 1
             report.print_statement_count += codemod.print_statement_count
+            if verbose:
+                click.echo(format_verbose_output(filename, codemod.print_statements))
             if not dry_run:
                 with open(filename, "w") as f:
                     f.write(result.code)

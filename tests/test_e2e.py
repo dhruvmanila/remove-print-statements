@@ -14,6 +14,22 @@ def test_noop() -> None:
     assert not result.stderr_bytes
 
 
+def test_verbose_output(tmp_path: str) -> None:
+    runner = CliRunner()
+    newlines = 10
+    with runner.isolated_filesystem(tmp_path) as temp_dir:
+        dir = Path(temp_dir)
+        dir.joinpath("hello.py").write_text(
+            'print("hello")' + "\n" * newlines + 'print("world")'
+        )
+        result = runner.invoke(main, ["hello.py", "--verbose"])
+
+    assert result.exit_code == 0
+    assert not result.stderr_bytes
+    assert result.stdout_bytes
+    assert 'hello.py\n  1 print("hello")\n  11 print("world")' in result.output
+
+
 def test_ignore_single_files(tmp_path: str) -> None:
     runner = CliRunner()
     filenames = ("hello1.py", "hello2.py", "hello3.py")
