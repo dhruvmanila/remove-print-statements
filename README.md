@@ -68,10 +68,11 @@ the source files using both `--dry-run` and `--verbose` flags like so:
 
 ```console
 $ remove-print-statements --dry-run --verbose test.py
-test.py:7:0: print("module")
-test.py:18:8: print("property")
-test.py:27:4: print("method")
-test.py:29:8: print("for loop")
+test.py
+  7 print("module")
+  18 print("property")
+  27 print("method")
+  29 print("for loop")
 
 1 file would be transformed, 4 print statements would be removed
 ```
