@@ -36,7 +36,7 @@ class Report:
     # Total number of print statements in all files combined.
     print_statement_count: int = 0
 
-    # Total number of files where a failure occured. The failure could occur either
+    # Total number of files where a failure occurred. The failure could occur either
     # while opening/reading the file or while transforming.
     failure_count: int = 0
 
