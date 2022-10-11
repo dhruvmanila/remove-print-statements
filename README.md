@@ -91,30 +91,19 @@ If there's only a single statement in the body of a function, for/while loop, if
 statement, etc., which is a print statement, then it will be replaced with the
 `pass` keyword.
 
-```python
+```diff
 def foo():
-    print()
+-    print()
++    pass
 
 
 for _ in range(5):
-    print()
+-    print()
++    pass
 
 if __name__ == "__main__":
-    print()
-```
-
-Running `remove-print-statements` will transform the above code as below:
-
-```python
-def foo():
-    pass
-
-
-for _ in range(5):
-    pass
-
-if __name__ == "__main__":
-    pass
+-    print()
++    pass
 ```
 
 ### Exit status
