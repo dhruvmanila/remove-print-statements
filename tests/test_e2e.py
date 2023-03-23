@@ -41,7 +41,9 @@ def test_verbose_output_with_unicode_characters(tmp_path: str) -> None:
     assert result.exit_code == 0
     assert not result.stderr_bytes
     assert result.stdout_bytes
-    assert 'hello_unicode.py\n  1 print("“hello”")\n  11 print("“world”")' in result.output
+    assert (
+        'hello_unicode.py\n  1 print("“hello”")\n  11 print("“world”")' in result.output
+    )
 
 
 def test_ignore_single_files(tmp_path: str) -> None:
