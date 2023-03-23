@@ -195,7 +195,7 @@ def check_file(
         verbose: If True, output all the print statements along with their location.
     """
     try:
-        with open(filename) as f:
+        with open(filename, encoding="utf-8") as f:
             code = f.read()
     except Exception as exc:  # pragma: no cover
         click.secho(f"Could not read file {filename!r}, skipping: {exc}", fg="red")
@@ -215,7 +215,7 @@ def check_file(
             if verbose:
                 click.echo(format_verbose_output(filename, codemod.print_statements))
             if not dry_run:
-                with open(filename, "w") as f:
+                with open(filename, "w", encoding="utf-8") as f:
                     f.write(result.code)
     elif isinstance(result, TransformFailure):
         click.secho(

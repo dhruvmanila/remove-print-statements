@@ -246,3 +246,19 @@ class TestRemovePrintStatement(CodemodTest):
             y = x + 1
         """
         self.assertCodemod(before, after, dry_run=True)
+
+    def test_utf8_characters_handled(self) -> None:
+        before = """
+        def foo():
+            x = "“Fancy Quote”"
+            print(x)
+            print("“Other Fancy Quote”")
+            print('"Normal Quote"')
+            return x
+        """
+        after = """
+        def foo():
+            x = "“Fancy Quote”"
+            return x
+        """
+        self.assertCodemod(before, after)
