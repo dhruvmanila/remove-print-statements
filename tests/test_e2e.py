@@ -29,6 +29,23 @@ def test_verbose_output(tmp_path: str) -> None:
     assert 'hello.py\n  1 print("hello")\n  11 print("world")' in result.output
 
 
+def test_verbose_output_with_unicode_characters(tmp_path: str) -> None:
+    runner = CliRunner()
+    newlines = 10
+    with runner.isolated_filesystem(tmp_path) as temp_dir:
+        Path(temp_dir).joinpath("hello_unicode.py").write_text(
+            'print("“hello”")' + "\n" * newlines + 'print("“world”")', encoding="utf-8"
+        )
+        result = runner.invoke(main, ["hello_unicode.py", "--verbose"])
+
+    assert result.exit_code == 0
+    assert not result.stderr_bytes
+    assert result.stdout_bytes
+    assert (
+        'hello_unicode.py\n  1 print("“hello”")\n  11 print("“world”")' in result.output
+    )
+
+
 def test_ignore_single_files(tmp_path: str) -> None:
     runner = CliRunner()
     filenames = ("hello1.py", "hello2.py", "hello3.py")
