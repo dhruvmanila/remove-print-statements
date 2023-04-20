@@ -9,8 +9,8 @@
 ![Python versions](https://img.shields.io/pypi/pyversions/remove-print-statements.svg)
 [![MIT License](https://img.shields.io/pypi/l/remove-print-statements.svg)](./LICENSE)
 
-A CLI tool (and pre-commit hook) to remove all the `print` statements from your
-Python project.
+A command-line tool (and pre-commit hook) to remove all the `print` statements
+from your Python project.
 
 </div>
 
