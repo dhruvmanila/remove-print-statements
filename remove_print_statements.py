@@ -11,6 +11,7 @@ import libcst.matchers as m
 from libcst.codemod import (
     CodemodContext,
     ContextAwareTransformer,
+    TransformExit,
     TransformFailure,
     TransformSuccess,
     transform_module,
@@ -185,7 +186,7 @@ def check_file(
     report: Report,
     dry_run: bool = False,
     verbose: bool = False,
-) -> None:
+) -> bool:
     """Check the given filename updating the report.
 
     Args:
@@ -193,6 +194,10 @@ def check_file(
         report: A report instance which will be updated with the given file's stats.
         dry_run: If True, it will not update the file with the transformed code.
         verbose: If True, output all the print statements along with their location.
+
+    Returns:
+        Boolean indicating whether to continue checking other files or not. This will
+        be False when the codemod was interrupted by the user (e.g. Ctrl-C).
     """
     try:
         with open(filename, encoding="utf-8") as f:
@@ -200,7 +205,7 @@ def check_file(
     except Exception as exc:  # pragma: no cover
         click.secho(f"Could not read file {filename!r}, skipping: {exc}", fg="red")
         report.failure_count += 1
-        return
+        return True
 
     codemod = RemovePrintStatements(
         context=CodemodContext(filename=filename),
@@ -222,6 +227,9 @@ def check_file(
             f"Failed to transform the file {filename!r}: {result.error}", fg="red"
         )
         report.failure_count += 1
+    elif isinstance(result, TransformExit):
+        return False
+    return True
 
 
 @click.command(
@@ -289,11 +297,13 @@ def main(
     for filename in filenames:
         if filename in ignore:
             continue
-        check_file(filename, report=report, dry_run=dry_run, verbose=verbose)
-
-    if not (report.failure_count or report.file_count):
-        click.secho("No print statements found. All good to go.", bold=True)
-        ctx.exit(0)
+        if not check_file(filename, report=report, dry_run=dry_run, verbose=verbose):
+            click.secho("Interrupted!", err=True, fg="red")
+            break
+    else:
+        if not (report.failure_count or report.file_count):
+            click.secho("No print statements found. All good to go.", bold=True)
+            ctx.exit(0)
 
     click.echo(str(report))
     ctx.exit(report.return_code)
