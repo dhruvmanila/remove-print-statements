@@ -18,7 +18,7 @@ from libcst.codemod import (
 )
 from libcst.metadata import PositionProvider
 
-__version__ = "0.5.1"
+__version__ = "0.5.2"
 
 # TODO(dhruvmanila): Remove this block when it's the default.
 # https://github.com/Instagram/LibCST/issues/285#issuecomment-1011427731
