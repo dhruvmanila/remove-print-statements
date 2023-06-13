@@ -30,13 +30,19 @@ without removing it. How nice is that!
 ## Installation
 
 You can install `remove-print-statements` from the Python Package Index (PyPI)
-with `pip` or equivalent.
+with [`pipx`] or equivalent.
 
 ```
-python -m pip install remove-print-statements
+pipx install remove-print-statements
 ```
 
-Or with [pre-commit](https://pre-commit.com) in the `repos` section of your
+Or, try it out using [`pipx`]:
+
+```
+pipx run remove-print-statements --help
+```
+
+Or, with [pre-commit](https://pre-commit.com) in the `repos` section of your
 `.pre-commit-config.yaml` file ([docs](https://pre-commit.com/#plugins)):
 
 ```yaml
@@ -44,7 +50,7 @@ Or with [pre-commit](https://pre-commit.com) in the `repos` section of your
   rev: ''  # Replace with latest tag on GitHub
   hooks:
   - id: remove-print-statements
-    args: ['--verbose']   # Show all the print statements to be removed
+    # args: ['--verbose']   # Show all the print statements to be removed
 ```
 
 ## Usage
@@ -139,3 +145,4 @@ See [LICENSE](./LICENSE) for details.
 <!-- References -->
 
 [1]: https://adamj.eu/tech/2022/03/09/how-to-run-a-command-on-many-files-in-your-git-repository/
+[`pipx`]: https://github.com/pypa/pipx
