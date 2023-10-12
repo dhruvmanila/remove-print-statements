@@ -1,3 +1,16 @@
+> **Warning**
+>
+> This project is no longer maintained. Please use
+> [Ruff](https://github.com/astral-sh/ruff) instead with the following
+> configuration:
+>
+> ```toml
+> [tool.ruff]
+> extend-select = ["T201"]
+> ```
+>
+> Rule reference: https://docs.astral.sh/ruff/rules/print
+
 <div align="center">
 
 # remove-print-statements
